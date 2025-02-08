@@ -1,0 +1,98 @@
+Concept is 
+using two dimension arrays to keep specific row and index first
+
+After that keep similar like (Loop collect sub-Image)
+   
+   Attack : 1 2 3 4
+   Block  : 1 2
+
+After that we'll use tick to update in every second 
+  Tick will update until end of row and then reset
+
+_____________Ep 6
+FPS = Draw game player enermy etc.
+UPS(Tick) = is to updates check what we input the updates it.
+
+    @Override
+    public void run(){
+
+        double timePerFrame = 1000000000.0 / FPS_SET;
+        long lastFrame = System.nanoTime();
+        long now = System.nanoTime();
+
+
+
+        int frame = 0;
+        long lastcheck = System.currentTimeMillis();
+
+        while(true){
+            now = System.nanoTime();
+            if(System.nanoTime() - lastFrame >= timePerFrame) {
+                gamePanel.repaint();
+                lastFrame = now;
+                frame++;
+            }
+
+            
+            if(System.currentTimeMillis() - lastcheck >= 1000){
+                lastcheck = System.currentTimeMillis();
+                System.out.println("FPS: "+frame);
+                frame = 0;
+            }
+        }
+
+    }
+
+
+    @Override
+    public void run(){
+
+        double timePerFrame = 1000000000.0 / FPS_SET;
+        double timePerUpdate = 1000000000.0 / UPS_SET; // Time of Frequency
+        long previousTime = System.nanoTime();
+
+
+        int frame = 0;
+        int updates = 0;
+        long lastcheck = System.currentTimeMillis();
+        double deltaU = 0;
+        double deltaF = 0;
+
+        while(true){
+            long currentTime = System.nanoTime();
+
+            deltaU += (currentTime  - previousTime) / timePerUpdate;
+            deltaF += (currentTime  - previousTime) / timePerFrame;
+            previousTime = currentTime;
+
+            if(deltaU >= 1){
+                update();
+                updates++;
+                deltaU--;
+            } 
+
+            if(deltaF >= 1){
+                gamePanel.repaint();
+                frame++;
+                deltaF--;
+            } 
+
+            
+           /*  if(System.currentTimeMillis() - lastcheck >= 1000){
+                lastcheck = System.currentTimeMillis();
+                System.out.println("FPS: "+frame+ "| UPS : "+updates);
+                frame = 0;
+                updates = 0;
+            }*/
+        }
+
+    }
+
+    abstact class that can't create obj
+    we will extends and stored value 
+
+    private is meaning as only This class can use 
+    but protected is class that extended can use it also.
+
+
+ิBy picture copy is a range of how much offset will be
