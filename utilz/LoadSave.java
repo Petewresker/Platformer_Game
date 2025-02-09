@@ -29,7 +29,7 @@ public class LoadSave {
 
         } finally {
             try {
-                is.close();
+                is.close();  
             } catch (IOException e) {
                 e.printStackTrace();
             }

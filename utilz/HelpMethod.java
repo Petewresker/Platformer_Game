@@ -1,5 +1,7 @@
 package utilz;
 
+import java.awt.geom.Rectangle2D;
+
 import main.Game;
 
 public class HelpMethod {
@@ -33,6 +35,44 @@ public class HelpMethod {
         }
          return false;   
         
+    }
+
+    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox ,float xSpeed){
+        int currentTile = (int)(hitbox.x / Game.TILES_SIZE);
+        //Concept for instance you got 12 less (left) is 11 and hit right is 13
+        if( xSpeed > 0){
+            //Right
+            int tileXPos = currentTile * Game.TILES_SIZE;
+            int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
+            return tileXPos + xOffset -1; //We do this because we want player snuggle up to nearest Tiles
+        }else{
+            //Left
+            return currentTile * Game.TILES_SIZE;
+        }
+
+    }
+
+    public static float GetEntityXPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox ,float airSpeed){
+        
+        int currentTile = (int)(hitbox.y / Game.TILES_SIZE);
+        if( airSpeed > 0){
+            //Falling - touching floor
+            int tileYPos = currentTile * Game.TILES_SIZE;
+            int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
+            return tileYPos + yOffset -1; 
+        }else{
+            //Jumping
+            return currentTile * Game.TILES_SIZE;
+        }
+    }
+
+    public static boolean IsEni9tityOnFloor(Rectangle2D.Float hitbox,int[][] lvlData){
+        // Check the pixel below bottomleft and bottomright protect inAir without jump
+        if(!IsSolid(hitbox.x , hitbox.y + hitbox.height+1 ,lvlData))
+            if(!IsSolid(hitbox.x+ hitbox.width , hitbox.y + hitbox.height +1,lvlData))
+                return false; //That's mean we're not on the floor
+        return true;
+
     }
 
 }
